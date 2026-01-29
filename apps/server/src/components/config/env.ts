@@ -28,14 +28,14 @@ const envSchema = z.object({
 
   // Henrik API
   HENRIK_API_KEY: z.string().min(1),
-  HENRIK_API_BASE_URL: z.string().url().default('https://api.henrikdev.xyz'),
+  HENRIK_API_BASE_URL: z.url().default('https://api.henrikdev.xyz'),
 
   // JWT
   JWT_SECRET: z.string().min(32),
   JWT_EXPIRES_IN: z.string().default('7d'),
 
   // Frontend URL (for CORS and redirects)
-  FRONTEND_URL: z.string().url().default('http://localhost:3000'),
+  FRONTEND_URL: z.url().default('http://localhost:3000'),
 })
 
 /**

@@ -4,6 +4,7 @@
       "name": "fullstack-template",
       "script": "./dist/main.js",
       "instances": 1,
+      "node_args": "--env-file=.env",
       "env": {
         "NODE_ENV": "production"
       }

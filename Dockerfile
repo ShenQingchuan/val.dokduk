@@ -32,7 +32,6 @@ RUN --mount=type=cache,id=pnpm-store,target=/root/.pnpm-store \
 
 # 复制构建产物
 COPY --from=build-stage /app/apps/server/dist ./apps/server/dist
-COPY --from=build-stage /app/apps/web/dist ./apps/web/dist
 
 # 复制 pm2 配置文件
 COPY apps/server/ecosystem.config.json ./apps/server/

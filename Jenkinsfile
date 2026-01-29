@@ -16,7 +16,7 @@ pipeline {
     parameters {
         string(name: 'IMAGE_NAME', defaultValue: 'univedge_val_dokduk', description: 'Docker 镜像名称')
         string(name: 'CONTAINER_NAME', defaultValue: 'univedge_val_dokduk', description: 'Docker 容器名称')
-        string(name: 'APP_PORT_MAPPING', defaultValue: '3000:3000', description: '主机端口:容器端口，传给 docker run -p')
+        string(name: 'APP_PORT_MAPPING', defaultValue: '19990:3000', description: '主机端口:容器端口，传给 docker run -p')
         string(name: 'ENV_CREDENTIAL_ID', defaultValue: 'val-dokduk-env-production', description: 'Jenkins Credential ID，存放 Secret file 作为 .env.production 文件')
         string(name: 'DOCKER_NETWORK', defaultValue: '1panel-network', description: '可选：容器加入的 Docker 网络，留空则使用默认网络')
     }

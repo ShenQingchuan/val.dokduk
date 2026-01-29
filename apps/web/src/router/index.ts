@@ -21,6 +21,11 @@ const routes: RouteRecordRaw[] = [
       query: { tab: 'matches' },
     }),
   },
+  {
+    path: '/match/:matchId',
+    name: 'Match',
+    component: () => import('../views/Match.vue'),
+  },
 ]
 
 const router: ReturnType<typeof createRouter> = createRouter({

@@ -116,5 +116,18 @@
   "mode_newmap": "New Map",
   "mode_snowballfight": "Snowball Fight",
   "mode_unknown": "Unknown",
-  "season_format": "Episode {episode} Act {act}"
+  "season_format": "Episode {episode} Act {act}",
+  "match_detail_title": "Match Details",
+  "match_detail_loading": "Loading match details...",
+  "match_duration": "Duration",
+  "team_a": "Team A",
+  "team_b": "Team B",
+  "round_timeline": "Round Timeline",
+  "round_eliminated": "Eliminated",
+  "round_defused": "Defused",
+  "round_detonated": "Detonated",
+  "round_timeout": "Time Out",
+  "player": "Player",
+  "rank": "Rank",
+  "damage": "Damage"
 }

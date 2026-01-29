@@ -1,4 +1,4 @@
-import type { MatchData, MatchPlayer } from '@/api/valorant'
+import type { MatchData, MatchPlayer, TeamData } from '@/api/valorant'
 
 export interface PlayerStats {
   // 总场数
@@ -46,10 +46,10 @@ export interface PlayerStats {
 }
 
 /**
- * 检查比赛数据是否有完整的玩家信息（兼容 stored-matches 格式）
+ * 检查比赛数据是否有完整的玩家信息
  */
 export function isFullMatchData(match: MatchData): boolean {
-  return !!(match.players?.all_players && Array.isArray(match.players.all_players))
+  return !!(match.players && Array.isArray(match.players) && match.players.length > 0)
 }
 
 /**
@@ -63,23 +63,24 @@ export function findPlayerInMatch(match: MatchData, playerName: string, playerTa
   const nameLower = playerName.toLowerCase()
   const tagLower = playerTag.toLowerCase()
 
-  return match.players.all_players.find(
-    p => p.name.toLowerCase() === nameLower && p.tag.toLowerCase() === tagLower,
+  return match.players.find(
+    (p: MatchPlayer) => p.name.toLowerCase() === nameLower && p.tag.toLowerCase() === tagLower,
   ) || null
+}
+
+/**
+ * 根据 team_id 找到对应的队伍数据
+ */
+function findTeamData(teams: TeamData[], teamId: string): TeamData | null {
+  return teams.find(t => t.team_id.toLowerCase() === teamId.toLowerCase()) || null
 }
 
 /**
  * 判断玩家是否赢得了比赛
  */
 export function didPlayerWin(match: MatchData, player: MatchPlayer): boolean {
-  const team = player.team.toLowerCase()
-  if (team === 'red') {
-    return match.teams.red.has_won
-  }
-  else if (team === 'blue') {
-    return match.teams.blue.has_won
-  }
-  return false
+  const team = findTeamData(match.teams, player.team_id)
+  return team?.won ?? false
 }
 
 /**
@@ -131,9 +132,9 @@ export function calculatePlayerStats(matches: MatchData[], playerName: string, p
     stats.totalHeadshots += player.stats.headshots
     stats.totalBodyshots += player.stats.bodyshots
     stats.totalLegshots += player.stats.legshots
-    stats.totalDamageMade += player.damage_made
-    stats.totalDamageReceived += player.damage_received
-    stats.totalRounds += match.metadata.rounds_played
+    stats.totalDamageMade += player.stats.damage.dealt
+    stats.totalDamageReceived += player.stats.damage.received
+    stats.totalRounds += match.rounds?.length ?? 0
     totalScore += player.stats.score
   }
 

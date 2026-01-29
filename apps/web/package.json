@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@iconify-json/ion": "catalog:unocss-family",
+    "@iconify-json/material-symbols": "catalog:unocss-family",
     "@iconify-json/simple-icons": "catalog:unocss-family",
     "@iconify-json/svg-spinners": "catalog:unocss-family",
     "@unocss/preset-uno": "catalog:unocss-family",

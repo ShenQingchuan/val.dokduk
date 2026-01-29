@@ -130,7 +130,7 @@ watch([name, tag], ([newName, newTag]) => {
                 <div class="flex items-center gap-2 text-val-gray font-normal">
                   #{{ playerStore.account.tag }}
                   <!-- Level badge -->
-                  <div class="px-1 py-0.5 bg-val-red text-white text-xs rounded">
+                  <div class="px-1.5 py-1 bg-slate-300/50 text-white text-xs rounded">
                     Lv.{{ playerStore.account.account_level }}
                   </div>
                 </div>
@@ -145,7 +145,7 @@ watch([name, tag], ([newName, newTag]) => {
         <!-- Rank Cards (并排) -->
         <div class="grid grid-cols-2 gap-3 mb-4">
           <!-- 当前段位 -->
-          <div class="card-val p-4">
+          <div class="card-val px-4 pt-3 pb-6">
             <h3 class="text-xs font-medium text-val-gray uppercase tracking-wider mb-3">
               {{ t('player_rank') }}
             </h3>
@@ -174,7 +174,7 @@ watch([name, tag], ([newName, newTag]) => {
           </div>
 
           <!-- 历史最高 -->
-          <div class="card-val p-4">
+          <div class="card-val px-4 pt-3 pb-6">
             <h3 class="text-xs font-medium text-val-gray uppercase tracking-wider mb-3">
               {{ t('player_highest_rank') }}
             </h3>

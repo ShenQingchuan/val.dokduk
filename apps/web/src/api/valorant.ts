@@ -113,6 +113,96 @@ export interface TeamData {
   won: boolean
 }
 
+export interface KillEvent {
+  kill_time_in_round: number
+  kill_time_in_match: number
+  killer: {
+    puuid: string
+    name: string
+    tag: string
+    team_id: string
+  }
+  victim: {
+    puuid: string
+    name: string
+    tag: string
+    team_id: string
+  }
+  assistants: Array<{
+    puuid: string
+    name: string
+    tag: string
+    team_id: string
+  }>
+  weapon: {
+    id: string
+    name: string
+    type: string
+  } | null
+  secondary_fire_mode: boolean
+}
+
+export interface RoundPlayerStat {
+  player: {
+    puuid: string
+    name: string
+    tag: string
+    team_id: string
+  }
+  ability_casts: {
+    grenade: number
+    ability1: number
+    ability2: number
+    ultimate: number
+  }
+  damage: number
+  kills: number
+  score: number
+  economy: {
+    loadout_value: number
+    remaining: number
+    weapon: {
+      id: string
+      name: string
+      type: string
+    } | null
+    armor: {
+      id: string
+      name: string
+    } | null
+  }
+  was_afk: boolean
+  stayed_in_spawn: boolean
+}
+
+export interface RoundData {
+  round_num: number
+  winning_team: string
+  end_type: string
+  bomb_planted: boolean
+  bomb_defused: boolean
+  plant_events: {
+    round_time_in_ms: number
+    site: string
+    player: {
+      puuid: string
+      name: string
+      tag: string
+      team_id: string
+    }
+  } | null
+  defuse_events: {
+    round_time_in_ms: number
+    player: {
+      puuid: string
+      name: string
+      tag: string
+      team_id: string
+    }
+  } | null
+  player_stats: RoundPlayerStat[]
+}
+
 export interface MatchData {
   metadata: {
     match_id: string
@@ -139,7 +229,8 @@ export interface MatchData {
   }
   players: MatchPlayer[]
   teams: TeamData[]
-  rounds: unknown[]
+  rounds: RoundData[]
+  kills?: KillEvent[]
 }
 
 export interface GetMatchesOptions {
@@ -207,22 +298,6 @@ export const valorantApi = {
 
   getMatch(matchId: string): Promise<MatchData> {
     return apiClient.get(`/api/valorant/match/${matchId}`)
-  },
-
-  /**
-   * Get stored matches (cached data from Henrik's database)
-   * Faster initial load, recommended as starting point
-   */
-  getStoredMatches(region: string, name: string, tag: string, options?: GetMatchesOptions): Promise<MatchData[]> {
-    const params = new URLSearchParams()
-    if (options?.mode)
-      params.set('mode', options.mode)
-    if (options?.size)
-      params.set('size', String(options.size))
-    if (options?.page)
-      params.set('page', String(options.page))
-    const query = params.toString() ? `?${params}` : ''
-    return apiClient.get(`/api/valorant/stored-matches/${region}/${encodeURIComponent(name)}/${encodeURIComponent(tag)}${query}`)
   },
 
   /**

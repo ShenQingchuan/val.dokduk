@@ -1,8 +1,10 @@
 catalogMode: prefer
-cleanupUnusedCatalogs: true
-shellEmulator: true
-trustPolicy: no-downgrade
 
+cleanupUnusedCatalogs: true
+
+shellEmulator: true
+
+trustPolicy: no-downgrade
 packages:
   - packages/*
   - apps/*
@@ -56,6 +58,7 @@ catalogs:
     jsdom: ^27.4.0
   unocss-family:
     '@iconify-json/ion': ^1.2.3
+    '@iconify-json/material-symbols': ^1.2.53
     '@iconify-json/simple-icons': ^1.2.68
     '@iconify-json/svg-spinners': ^1.2.3
     '@unocss/preset-uno': ^66.6.0

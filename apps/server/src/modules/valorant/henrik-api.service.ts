@@ -303,34 +303,6 @@ export class HenrikApiService {
   }
 
   /**
-   * Get stored match history (from Henrik's database cache)
-   * This is faster but may not have the most recent matches
-   * Recommended as initial data source for new users
-   */
-  async getStoredMatches(
-    region: string,
-    name: string,
-    tag: string,
-    options?: { mode?: string, size?: number, page?: number },
-  ): Promise<MatchData[]> {
-    const params = new URLSearchParams()
-    if (options?.mode)
-      params.set('mode', options.mode)
-    if (options?.size)
-      params.set('size', String(options.size))
-    if (options?.page)
-      params.set('page', String(options.page))
-    const query = params.toString() ? `?${params}` : ''
-
-    // stored-matches 返回的数据格式可能略有不同，但我们尽量兼容
-    const data = await this.request<MatchData[]>(
-      `/valorant/v1/stored-matches/${region}/${encodeURIComponent(name)}/${encodeURIComponent(tag)}${query}`,
-    )
-
-    return data
-  }
-
-  /**
    * Get match details by match ID
    */
   async getMatch(matchId: string): Promise<MatchData> {

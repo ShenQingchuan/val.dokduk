@@ -12,7 +12,7 @@
   "search_button": "搜索",
   "search_empty": "请输入玩家名和标签",
   "search_invalid_format": "格式错误，请使用 玩家名#标签",
-  "search_hint": "输入你的 Riot ID（例如：玩家名#CN1）",
+  "search_hint": "输入你的 Riot ID（格式：玩家名#tag）",
   "player_level": "等级",
   "player_rank": "当前段位",
   "player_highest_rank": "历史最高",
@@ -116,5 +116,18 @@
   "mode_newmap": "新地图",
   "mode_snowballfight": "雪球大战",
   "mode_unknown": "未知模式",
-  "season_format": "S{episode} 第{act}赛段"
+  "season_format": "S{episode} 第{act}赛段",
+  "match_detail_title": "比赛详情",
+  "match_detail_loading": "正在加载比赛详情...",
+  "match_duration": "比赛时长",
+  "team_a": "A 队",
+  "team_b": "B 队",
+  "round_timeline": "回合时间线",
+  "round_eliminated": "全灭",
+  "round_defused": "拆包",
+  "round_detonated": "爆炸",
+  "round_timeout": "时间耗尽",
+  "player": "玩家",
+  "rank": "段位",
+  "damage": "伤害"
 }

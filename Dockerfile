@@ -28,7 +28,7 @@ COPY apps/web/package.json ./apps/web/
 COPY packages/ ./packages/
 
 RUN --mount=type=cache,id=pnpm-store,target=/root/.pnpm-store \
-    pnpm install --frozen-lockfile --prod
+    pnpm install --frozen-lockfile --prod --ignore-scripts
 
 # 复制构建产物
 COPY --from=build-stage /app/apps/server/dist ./apps/server/dist

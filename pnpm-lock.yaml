@@ -131,6 +131,9 @@ catalogs:
     '@iconify-json/ion':
       specifier: ^1.2.3
       version: 1.2.6
+    '@iconify-json/material-symbols':
+      specifier: ^1.2.53
+      version: 1.2.53
     '@iconify-json/simple-icons':
       specifier: ^1.2.68
       version: 1.2.68
@@ -356,6 +359,9 @@ importers:
       '@iconify-json/ion':
         specifier: catalog:unocss-family
         version: 1.2.6
+      '@iconify-json/material-symbols':
+        specifier: catalog:unocss-family
+        version: 1.2.53
       '@iconify-json/simple-icons':
         specifier: catalog:unocss-family
         version: 1.2.68
@@ -1191,6 +1197,9 @@ packages:
 
   '@iconify-json/ion@1.2.6':
     resolution: {integrity: sha512-JftEXKfjvJNn3SrGeSBrG/waRkjeTpLdMLNLwpAX4NgI14QgJoAeXEh2iZjNPqioAkeIgErX4Bi6mnFwpjk3BQ==}
+
+  '@iconify-json/material-symbols@1.2.53':
+    resolution: {integrity: sha512-2jXBKFdNzL9zy6chnJqubykL9WZno7rEP6/isSzpp6fKJJMXXhRtVkaGw1Clle0RlXGWzVkd/eiYUH8f9/ILrQ==}
 
   '@iconify-json/simple-icons@1.2.68':
     resolution: {integrity: sha512-bQPl1zuZlX6AnofreA1v7J+hoPncrFMppqGboe/SH54jZO37meiBUGBqNOxEpc0HKfZGxJaVVJwZd4gdMYu3hw==}
@@ -5860,6 +5869,10 @@ snapshots:
   '@humanwhocodes/retry@0.4.3': {}
 
   '@iconify-json/ion@1.2.6':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/material-symbols@1.2.53':
     dependencies:
       '@iconify/types': 2.0.0
 

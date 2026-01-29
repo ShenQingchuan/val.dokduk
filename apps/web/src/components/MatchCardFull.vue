@@ -2,6 +2,7 @@
 import type { MatchData } from '@/api/valorant'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 import { formatTimeAgo } from '@/utils/rank'
 
 const props = defineProps<{
@@ -11,6 +12,11 @@ const props = defineProps<{
 }>()
 
 const { t } = useI18n()
+const router = useRouter()
+
+function goToMatchDetail() {
+  router.push(`/match/${props.match.metadata.match_id}`)
+}
 
 const player = computed(() => {
   if (!props.match.players || !Array.isArray(props.match.players)) {
@@ -81,11 +87,12 @@ const translatedMode = computed(() => {
 
 <template>
   <div
-    class="relative overflow-hidden transition-all duration-200 hover:scale-[1.01] bg-val-dark border rounded-lg" :class="[
+    class="relative overflow-hidden transition-all duration-200 hover:scale-[1.01] bg-val-dark border rounded-lg cursor-pointer" :class="[
       isWin
         ? 'border-green-500/30 hover:border-green-500/50'
         : 'border-val-red/30 hover:border-val-red/50',
     ]"
+    @click="goToMatchDetail"
   >
     <!-- Left side win/lose indicator bar -->
     <div

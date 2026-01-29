@@ -57,27 +57,6 @@ export class ValorantController {
   }
 
   /**
-   * GET /api/valorant/stored-matches/:region/:name/:tag
-   * Get stored match history (cached data from Henrik's database)
-   * Faster initial load, recommended for new users
-   */
-  @Get('stored-matches/:region/:name/:tag')
-  async getStoredMatches(
-    @Param('region') region: string,
-    @Param('name') name: string,
-    @Param('tag') tag: string,
-    @Query('mode') mode?: string,
-    @Query('size') size?: string,
-    @Query('page') page?: string,
-  ) {
-    return this.henrikApiService.getStoredMatches(region, name, tag, {
-      mode,
-      size: size ? Number.parseInt(size, 10) : undefined,
-      page: page ? Number.parseInt(page, 10) : undefined,
-    })
-  }
-
-  /**
    * GET /api/valorant/match/:matchId
    * Get match details
    */

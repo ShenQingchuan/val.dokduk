@@ -1,0 +1,24 @@
+{
+  "recommendations": [
+    // Vue.js language features
+    "Vue.volar",
+
+    // TypeScript support
+    "Vue.vscode-typescript-vue-plugin",
+
+    // Internationalization helper
+    "Lokalise.i18n-ally",
+
+    // ESLint integration
+    "dbaeumer.vscode-eslint",
+
+    // Git hooks
+    "sjhuangx.vscode-git-hooks",
+
+    // UnoCSS support
+    "antfu.unocss",
+
+    // PNPM Catalogs
+    "antfu.pnpm-catalog-lens"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "fullstack-template",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.28.2",
+  "scripts": {
+    "dev": "NODE_ENV=development pnpm -r --parallel dev",
+    "build": "NODE_ENV=production tsdown && pnpm -r --stream build",
+    "start": "NODE_ENV=production node apps/server/dist/main.js",
+    "test": "vitest",
+    "lint": "eslint .",
+    "typecheck": "pnpm -r typecheck",
+    "prepare": "simple-git-hooks"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "catalog:dev-tools",
+    "@commitlint/cli": "catalog:git-tools",
+    "@commitlint/config-conventional": "catalog:git-tools",
+    "@types/node": "catalog:dev-tools",
+    "@typescript/native-preview": "catalog:dev-tools",
+    "@vitejs/plugin-vue": "catalog:vite-family",
+    "@vitest/coverage-v8": "catalog:test-family",
+    "commitlint": "catalog:git-tools",
+    "eslint": "catalog:dev-tools",
+    "jsdom": "catalog:test-family",
+    "lint-staged": "catalog:git-tools",
+    "simple-git-hooks": "catalog:git-tools",
+    "tsdown": "catalog:dev-tools",
+    "typescript": "catalog:dev-tools",
+    "vitest": "catalog:vite-family"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm test --run && pnpm lint-staged",
+    "commit-msg": "pnpm commitlint --edit ${1}"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,vue,json,yml,yaml}": [
+      "eslint --fix"
+    ]
+  }
+}

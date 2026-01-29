@@ -1,0 +1,49 @@
+{
+  "name": "@fullstack-template/server",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "NODE_ENV=development tsx watch --clear-screen=false --env-file=.env.local src/main.ts",
+    "build": "NODE_ENV=production tsc -p tsconfig.json",
+    "start": "pm2-runtime ecosystem.config.json",
+    "typecheck": "tsgo --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@nestjs/common": "catalog:nest-family",
+    "@nestjs/core": "catalog:nest-family",
+    "@nestjs/platform-express": "catalog:nest-family",
+    "cls-rtracer": "catalog:logger-family",
+    "cookie-parser": "catalog:nest-family",
+    "dotenv": "catalog:nest-family",
+    "drizzle-orm": "catalog:nest-family",
+    "ioredis": "catalog:nest-family",
+    "jsonwebtoken": "catalog:nest-family",
+    "nanoid": "catalog:nest-family",
+    "nestjs-pino": "catalog:logger-family",
+    "pino": "catalog:logger-family",
+    "pino-http": "catalog:logger-family",
+    "pino-pretty": "catalog:logger-family",
+    "pino-roll": "catalog:logger-family",
+    "pm2": "catalog:nest-family",
+    "postgres": "catalog:nest-family",
+    "reflect-metadata": "catalog:nest-family",
+    "zod": "catalog:nest-family"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "catalog:nest-family",
+    "@types/cookie-parser": "catalog:nest-family",
+    "@types/express": "catalog:logger-family",
+    "@types/ioredis": "catalog:nest-family",
+    "@types/jsonwebtoken": "catalog:nest-family",
+    "@types/node": "catalog:dev-tools",
+    "@typescript/native-preview": "catalog:dev-tools",
+    "drizzle-kit": "catalog:nest-family",
+    "tsx": "catalog:dev-tools",
+    "typescript": "catalog:dev-tools"
+  }
+}

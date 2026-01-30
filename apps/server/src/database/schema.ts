@@ -1,6 +1,21 @@
 import { index, pgTable, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core'
 
 /**
+ * Auth users table - local authentication (username/password via SRP-6a)
+ */
+export const authUsers = pgTable('auth_users', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  username: text('username').notNull().unique(),
+  // SRP-6a: store salt and verifier, never the password
+  srpSalt: text('srp_salt').notNull(),
+  srpVerifier: text('srp_verifier').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+}, table => [
+  index('auth_users_username_idx').on(table.username),
+])
+
+/**
  * Users table - stores authenticated Riot users
  */
 export const users = pgTable('users', {
@@ -48,6 +63,8 @@ export const searchHistory = pgTable('search_history', {
 ])
 
 // Type exports for use in services
+export type AuthUser = typeof authUsers.$inferSelect
+export type NewAuthUser = typeof authUsers.$inferInsert
 export type User = typeof users.$inferSelect
 export type NewUser = typeof users.$inferInsert
 export type Favorite = typeof favorites.$inferSelect

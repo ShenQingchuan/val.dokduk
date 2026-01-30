@@ -32,7 +32,11 @@ const envSchema = z.object({
 
   // JWT
   JWT_SECRET: z.string().min(32),
-  JWT_EXPIRES_IN: z.string().default('7d'),
+  JWT_ACCESS_EXPIRES_IN: z.string().default('15m'),
+  JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
+
+  // Cloudflare Turnstile
+  TURNSTILE_SECRET_KEY: z.string().min(1),
 
   // Frontend URL (for CORS and redirects)
   FRONTEND_URL: z.url().default('http://localhost:3000'),

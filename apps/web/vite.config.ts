@@ -6,6 +6,7 @@ import Inspect from 'vite-plugin-inspect'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  envDir: '../../',
   plugins: [
     vue(),
     UnoCSS(),

@@ -33,6 +33,9 @@ RUN --mount=type=cache,id=pnpm-store,target=/root/.pnpm-store \
 # 复制构建产物
 COPY --from=build-stage /app/apps/server/dist ./apps/server/dist
 
+# 复制 drizzle 迁移 SQL 文件到 dist 目录（migrate.js 从这里读取）
+COPY --from=build-stage /app/apps/server/src/database/migrations ./apps/server/dist/database/migrations
+
 # 复制 pm2 配置文件
 COPY apps/server/ecosystem.config.json ./apps/server/
 

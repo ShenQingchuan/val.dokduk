@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=development tsx watch --clear-screen=false --env-file=.env.local src/main.ts",
+    "dev": "NODE_ENV=development tsx watch --clear-screen=false --env-file=../../.env.local src/main.ts",
     "build": "NODE_ENV=production tsc -p tsconfig.json",
     "start": "pm2-runtime ecosystem.config.json",
     "typecheck": "tsgo --noEmit",
@@ -16,6 +16,8 @@
   "dependencies": {
     "@nestjs/common": "catalog:nest-family",
     "@nestjs/core": "catalog:nest-family",
+    "@nestjs/jwt": "catalog:nest-family",
+    "@nestjs/passport": "catalog:nest-family",
     "@nestjs/platform-express": "catalog:nest-family",
     "cls-rtracer": "catalog:logger-family",
     "cookie-parser": "catalog:nest-family",
@@ -25,6 +27,8 @@
     "jsonwebtoken": "catalog:nest-family",
     "nanoid": "catalog:nest-family",
     "nestjs-pino": "catalog:logger-family",
+    "passport": "catalog:nest-family",
+    "passport-jwt": "catalog:nest-family",
     "pino": "catalog:logger-family",
     "pino-http": "catalog:logger-family",
     "pino-pretty": "catalog:logger-family",
@@ -32,6 +36,8 @@
     "pm2": "catalog:nest-family",
     "postgres": "catalog:nest-family",
     "reflect-metadata": "catalog:nest-family",
+    "rxjs": "catalog:nest-family",
+    "tssrp6a": "catalog:nest-family",
     "zod": "catalog:nest-family"
   },
   "devDependencies": {
@@ -41,6 +47,7 @@
     "@types/ioredis": "catalog:nest-family",
     "@types/jsonwebtoken": "catalog:nest-family",
     "@types/node": "catalog:dev-tools",
+    "@types/passport-jwt": "catalog:nest-family",
     "@typescript/native-preview": "catalog:dev-tools",
     "drizzle-kit": "catalog:nest-family",
     "tsx": "catalog:dev-tools",

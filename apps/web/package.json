@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
+    "typecheck": "vue-tsc --noEmit",
     "preview": "vite preview",
     "lint": "eslint . --fix",
     "lint:check": "eslint ."
@@ -15,6 +16,7 @@
     "@tanstack/vue-virtual": "catalog:vue-family",
     "@vueuse/core": "catalog:vue-family",
     "pinia": "catalog:vue-family",
+    "tssrp6a": "catalog:nest-family",
     "vue": "catalog:vue-family",
     "vue-i18n": "catalog:vue-family",
     "vue-router": "catalog:vue-family"

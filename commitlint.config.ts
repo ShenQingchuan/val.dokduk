@@ -18,7 +18,7 @@ export default {
         'revert', // Revert
       ],
     ],
-    'subject-max-length': [2, 'always', 50],
+    'subject-max-length': [2, 'always', 80],
     'body-max-line-length': [2, 'always', 72],
   },
 }

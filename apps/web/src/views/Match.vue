@@ -2,13 +2,12 @@
 import { useQuery } from '@pinia/colada'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { valorantApi } from '@/api/valorant'
 import { MATCH_QUERY_KEYS } from '@/queries/match'
 
 const { t } = useI18n()
 const route = useRoute()
-const router = useRouter()
 
 const matchId = computed(() => route.params.matchId as string)
 
@@ -171,6 +170,13 @@ function getACS(player: V2Player): number {
   return Math.round(player.stats.score / totalRounds)
 }
 
+function getDmgPerRound(player: V2Player): number {
+  const totalRounds = match.value?.metadata.rounds_played ?? 0
+  if (totalRounds === 0)
+    return 0
+  return Math.round(player.damage_made / totalRounds)
+}
+
 // Translate rank (e.g., "Platinum 1" -> "铂金 1")
 function translateRank(rankPatched: string | null | undefined): string {
   if (!rankPatched)
@@ -229,15 +235,6 @@ function getRoundEndType(round: V2Round): string {
     return t('round_timeout') || 'Time'
   return round.end_type
 }
-
-function goBack() {
-  if (window.history.length > 1) {
-    router.back()
-  }
-  else {
-    router.push('/')
-  }
-}
 </script>
 
 <template>
@@ -254,18 +251,15 @@ function goBack() {
 
     <!-- Error -->
     <div v-else-if="error" class="px-4 py-32">
-      <div class="text-center max-w-md mx-auto">
-        <div class="w-20 h-20 mx-auto mb-6 relative">
+      <div class="text-center max-w-md mx-auto flex flex-col items-center">
+        <div class="w-20 h-20 mx-auto mb-2 relative">
           <svg class="w-full h-full text-val-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           </svg>
         </div>
-        <p class="text-val-red mb-6">
-          {{ error }}
+        <p class="text-val-red w-full flex items-center flex-1 justify-center">
+          {{ error || t('unknown_error') }}
         </p>
-        <button class="btn-val rounded-lg" @click="goBack">
-          {{ t('common_back') || 'Go Back' }}
-        </button>
       </div>
     </div>
 
@@ -274,21 +268,14 @@ function goBack() {
       <!-- Match Header -->
       <div class="relative bg-val-darker border-b border-val-gray-dark/30">
         <div class="max-w-6xl mx-auto px-4 md:px-8 py-6">
-          <!-- Back button + Title -->
-          <div class="flex items-center gap-4 mb-6">
-            <button class="p-2 -ml-2 text-val-gray hover:text-val-cream transition-colors" @click="goBack">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <div>
-              <h1 class="text-xl md:text-2xl font-bold text-val-cream">
-                {{ t('match_detail_title') || 'Match Details' }}
-              </h1>
-              <p class="text-val-gray text-sm">
-                {{ translatedMap }} · {{ translatedMode }} · {{ matchDate }}
-              </p>
-            </div>
+          <!-- Title -->
+          <div class="mb-6">
+            <h1 class="text-xl md:text-2xl font-bold text-val-cream">
+              {{ t('match_detail_title') || 'Match Details' }}
+            </h1>
+            <p class="text-val-gray text-sm">
+              {{ translatedMap }} · {{ translatedMode }} · {{ matchDate }}
+            </p>
           </div>
 
           <!-- Score Display -->
@@ -335,11 +322,23 @@ function goBack() {
           </h3>
 
           <!-- Grid: 2 rows (Team A / Team B), N columns (rounds) -->
-          <div class="overflow-x-auto overflow-y-visible">
-            <div class="inline-flex flex-col gap-1 min-w-max py-2">
-              <!-- Team A row -->
-              <div class="flex items-center gap-1">
-                <span class="w-16 text-xs text-blue-400 font-medium shrink-0">{{ t('team_a') || 'Team A' }}</span>
+          <div class="relative flex">
+            <!-- Sticky labels column -->
+            <div class="flex flex-col gap-1 py-2 sticky left-0 z-10 bg-val-dark pr-2 shrink-0">
+              <div class="h-7 md:h-8 flex items-center">
+                <span class="text-xs text-blue-400 font-medium whitespace-nowrap">{{ t('team_a') || 'Team A' }}</span>
+              </div>
+              <div v-if="match.rounds.length > 12" class="h-4" />
+              <div class="h-7 md:h-8 flex items-center">
+                <span class="text-xs text-val-red font-medium whitespace-nowrap">{{ t('team_b') || 'Team B' }}</span>
+              </div>
+              <div class="h-4 mt-1" />
+            </div>
+
+            <!-- Scrollable rounds area -->
+            <div class="overflow-x-auto overflow-y-visible scrollbar-hide flex-1">
+              <div class="inline-flex flex-col gap-1 min-w-max py-2">
+                <!-- Team A row -->
                 <div class="flex gap-1">
                   <template v-for="(round, index) in match.rounds" :key="`a-${index}`">
                     <!-- Half-time separator before round 13 -->
@@ -373,26 +372,20 @@ function goBack() {
                     </div>
                   </template>
                 </div>
-              </div>
 
-              <!-- Half-time label row -->
-              <div v-if="match.rounds.length > 12" class="flex items-center gap-1">
-                <span class="w-16 shrink-0" />
-                <div class="flex gap-1">
+                <!-- Half-time label row -->
+                <div v-if="match.rounds.length > 12" class="flex gap-1">
                   <!-- First half spacer (12 rounds) -->
                   <div class="flex gap-1">
                     <div v-for="i in 12" :key="`spacer1-${i}`" class="w-7 md:w-8" />
                   </div>
                   <!-- Half-time indicator -->
                   <div class="flex flex-col items-center justify-center px-1 translate-x--1/3">
-                    <span class="text-[10px] text-val-cream/60 font-medium tracking-wider whitespace-nowrap rotate-0">HALF</span>
+                    <span class="text-[10px] text-val-cream/60 font-medium tracking-wider whitespace-nowrap">HALF</span>
                   </div>
                 </div>
-              </div>
 
-              <!-- Team B row -->
-              <div class="flex items-center gap-1">
-                <span class="w-16 text-xs text-val-red font-medium shrink-0">{{ t('team_b') || 'Team B' }}</span>
+                <!-- Team B row -->
                 <div class="flex gap-1">
                   <template v-for="(round, index) in match.rounds" :key="`b-${index}`">
                     <!-- Half-time separator before round 13 -->
@@ -426,12 +419,9 @@ function goBack() {
                     </div>
                   </template>
                 </div>
-              </div>
 
-              <!-- Round numbers -->
-              <div class="flex items-center gap-1 mt-1">
-                <span class="w-16 shrink-0" />
-                <div class="flex gap-1">
+                <!-- Round numbers -->
+                <div class="flex gap-1 mt-1">
                   <template v-for="(_, index) in match.rounds" :key="`num-${index}`">
                     <!-- Half-time spacer -->
                     <div v-if="index === 12" class="px-1">
@@ -482,7 +472,7 @@ function goBack() {
                     {{ t('rank') || 'Rank' }}
                   </th>
                   <th class="px-4 py-3 text-center">
-                    ACS
+                    {{ t('stats_acs') }}
                   </th>
                   <th class="px-4 py-3 text-center">
                     K/D/A
@@ -491,10 +481,10 @@ function goBack() {
                     K/D
                   </th>
                   <th class="px-4 py-3 text-center">
-                    HS%
+                    {{ t('stats_hs_percent') }}
                   </th>
                   <th class="px-4 py-3 text-center">
-                    {{ t('damage') || 'DMG' }}
+                    {{ t('stats_dmg_per_round') }}
                   </th>
                 </tr>
               </thead>
@@ -537,7 +527,7 @@ function goBack() {
                     {{ getHeadshotPercent(player) }}%
                   </td>
                   <td class="px-4 py-3 text-center font-mono text-val-cream">
-                    {{ player.damage_made }}
+                    {{ getDmgPerRound(player) }}
                   </td>
                 </tr>
               </tbody>
@@ -575,28 +565,28 @@ function goBack() {
                 </div>
               </div>
               <div class="grid grid-cols-3 gap-2 text-center text-xs">
-                <div class="bg-val-darker rounded p-2">
+                <div class="p-1">
                   <p class="text-val-gray">
-                    ACS
+                    {{ t('stats_acs') }}
                   </p>
                   <p class="text-val-cream font-mono">
                     {{ getACS(player) }}
                   </p>
                 </div>
-                <div class="bg-val-darker rounded p-2">
+                <div class="p-1">
                   <p class="text-val-gray">
-                    HS%
+                    {{ t('stats_hs_percent') }}
                   </p>
                   <p class="text-val-cream font-mono">
                     {{ getHeadshotPercent(player) }}%
                   </p>
                 </div>
-                <div class="bg-val-darker rounded p-2">
+                <div class="p-1">
                   <p class="text-val-gray">
-                    DMG
+                    {{ t('stats_dmg_per_round') }}
                   </p>
                   <p class="text-val-cream font-mono">
-                    {{ player.damage_made }}
+                    {{ getDmgPerRound(player) }}
                   </p>
                 </div>
               </div>
@@ -627,7 +617,7 @@ function goBack() {
                     {{ t('rank') || 'Rank' }}
                   </th>
                   <th class="px-4 py-3 text-center">
-                    ACS
+                    {{ t('stats_acs') }}
                   </th>
                   <th class="px-4 py-3 text-center">
                     K/D/A
@@ -636,10 +626,10 @@ function goBack() {
                     K/D
                   </th>
                   <th class="px-4 py-3 text-center">
-                    HS%
+                    {{ t('stats_hs_percent') }}
                   </th>
                   <th class="px-4 py-3 text-center">
-                    {{ t('damage') || 'DMG' }}
+                    {{ t('stats_dmg_per_round') }}
                   </th>
                 </tr>
               </thead>
@@ -682,7 +672,7 @@ function goBack() {
                     {{ getHeadshotPercent(player) }}%
                   </td>
                   <td class="px-4 py-3 text-center font-mono text-val-cream">
-                    {{ player.damage_made }}
+                    {{ getDmgPerRound(player) }}
                   </td>
                 </tr>
               </tbody>
@@ -720,28 +710,28 @@ function goBack() {
                 </div>
               </div>
               <div class="grid grid-cols-3 gap-2 text-center text-xs">
-                <div class="bg-val-darker rounded p-2">
+                <div class="p-1">
                   <p class="text-val-gray">
-                    ACS
+                    {{ t('stats_acs') }}
                   </p>
                   <p class="text-val-cream font-mono">
                     {{ getACS(player) }}
                   </p>
                 </div>
-                <div class="bg-val-darker rounded p-2">
+                <div class="p-1">
                   <p class="text-val-gray">
-                    HS%
+                    {{ t('stats_hs_percent') }}
                   </p>
                   <p class="text-val-cream font-mono">
                     {{ getHeadshotPercent(player) }}%
                   </p>
                 </div>
-                <div class="bg-val-darker rounded p-2">
+                <div class="p-1">
                   <p class="text-val-gray">
-                    DMG
+                    {{ t('stats_dmg_per_round') }}
                   </p>
                   <p class="text-val-cream font-mono">
-                    {{ player.damage_made }}
+                    {{ getDmgPerRound(player) }}
                   </p>
                 </div>
               </div>

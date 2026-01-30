@@ -102,26 +102,25 @@ const translatedMode = computed(() => {
     />
 
     <div class="p-4 pl-5">
-      <div class="flex items-center gap-4">
-        <!-- Agent Icon -->
-        <div class="relative flex-shrink-0">
-          <div class="w-auto h-14 md:w-16 md:h-16 rounded-lg overflow-hidden bg-val-darker">
-            <img
-              v-if="player?.agent?.id"
-              :src="`https://media.valorant-api.com/agents/${player.agent.id}/displayicon.png`"
-              :alt="player?.agent?.name"
-              class="w-full h-full object-contain"
-            >
-          </div>
-        </div>
-
+      <div class="flex items-start gap-3 md:gap-4">
         <!-- Main Info -->
         <div class="flex-1 min-w-0">
           <div class="flex items-center justify-between">
             <div>
-              <p class="font-semibold text-val-cream text-base md:text-lg">
-                {{ player?.agent?.name || 'Unknown' }}
-              </p>
+              <div class="flex items-center gap-2">
+                <!-- Agent Icon (small, inline) -->
+                <div class="w-7 h-7 md:w-8 md:h-8 rounded overflow-hidden bg-val-darker flex-shrink-0">
+                  <img
+                    v-if="player?.agent?.id"
+                    :src="`https://media.valorant-api.com/agents/${player.agent.id}/displayicon.png`"
+                    :alt="player?.agent?.name"
+                    class="w-full h-full object-contain"
+                  >
+                </div>
+                <p class="font-semibold text-val-cream text-base md:text-lg">
+                  {{ player?.agent?.name || 'Unknown' }}
+                </p>
+              </div>
               <p class="text-sm text-val-gray mt-0.5">
                 {{ translatedMap }} · {{ translatedMode }}
               </p>
@@ -167,7 +166,7 @@ const translatedMode = computed(() => {
               <p class="text-xs text-val-gray uppercase">
                 {{ t('match_rounds') }}
               </p>
-              <p class="font-mono font-bold">
+              <p class="font-mono font-bold whitespace-nowrap">
                 <span :class="isWin ? 'text-green-400' : 'text-val-red'">
                   {{ playerTeam?.rounds.won ?? 0 }}
                 </span>

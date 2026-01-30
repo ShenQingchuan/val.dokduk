@@ -29,6 +29,7 @@ export default defineConfig({
     'card-val': 'bg-val-dark border border-val-gray-dark rounded-lg',
     'glow-border': 'shadow-[0_0_10px_rgba(255,70,85,0.3)]',
     'bg-val-gradient': 'bg-gradient-to-b from-val-black to-val-darker',
+    'scrollbar-hide': '[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]',
   },
   presets: [
     presetAttributify(),

@@ -165,21 +165,21 @@ watch([name, tag], ([newName, newTag]) => {
             <h3 class="text-xs font-medium text-val-gray uppercase tracking-wider mb-3">
               {{ t('player_rank') }}
             </h3>
-            <div v-if="mmr" class="flex items-center gap-3">
-              <div class="w-14 h-14 flex-shrink-0 flex items-center justify-center">
+            <div v-if="mmr" class="flex flex-col md:flex-row items-center gap-2 md:gap-3">
+              <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center">
                 <img
                   v-if="mmr.current_data?.images?.large"
                   :src="mmr.current_data.images.large"
                   :alt="mmr.current_data.currenttierpatched"
                   class="w-full h-full object-contain drop-shadow-[0_0_10px_rgba(255,70,85,0.3)]"
                 >
-                <div v-else class="i-simple-icons-valorant w-10 h-10 text-val-gray-dark" />
+                <div v-else class="i-simple-icons-valorant w-8 h-8 text-val-gray-dark" />
               </div>
-              <div>
-                <p class="font-medium text-val-cream ">
+              <div class="text-center md:text-left">
+                <p class="font-medium text-val-cream text-sm md:text-base">
                   {{ translatedCurrentRank }}
                 </p>
-                <p class="text-val-gray text-sm">
+                <p class="text-val-gray text-xs md:text-sm">
                   {{ mmr.current_data?.ranking_in_tier || 0 }} {{ t('player_rr') }}
                 </p>
               </div>
@@ -194,21 +194,21 @@ watch([name, tag], ([newName, newTag]) => {
             <h3 class="text-xs font-medium text-val-gray uppercase tracking-wider mb-3">
               {{ t('player_highest_rank') }}
             </h3>
-            <div v-if="mmr?.highest_rank" class="flex items-center gap-3">
-              <div class="w-14 h-14 flex-shrink-0 flex items-center justify-center">
+            <div v-if="mmr?.highest_rank" class="flex flex-col md:flex-row items-center gap-2 md:gap-3">
+              <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center">
                 <img
                   v-if="peakRankIconUrl"
                   :src="peakRankIconUrl"
                   :alt="mmr.highest_rank.patched_tier"
                   class="w-full h-full object-contain drop-shadow-[0_0_10px_rgba(255,70,85,0.3)]"
                 >
-                <div v-else class="i-simple-icons-valorant w-10 h-10 text-val-gray-dark" />
+                <div v-else class="i-simple-icons-valorant w-8 h-8 text-val-gray-dark" />
               </div>
-              <div>
-                <p class="font-medium text-val-cream ">
+              <div class="text-center md:text-left">
+                <p class="font-medium text-val-cream text-sm md:text-base">
                   {{ translatedPeakRank }}
                 </p>
-                <p class="text-val-gray text-sm">
+                <p class="text-val-gray text-xs md:text-sm">
                   {{ peakRankSeason }}
                 </p>
               </div>
@@ -298,20 +298,20 @@ watch([name, tag], ([newName, newTag]) => {
             <!-- 每回合击杀 -->
             <div class="p-1">
               <p class="text-xs text-val-gray mb-0.5">
-                K/R
+                {{ t('stats_kills_per_round') }}
               </p>
               <p class="font-medium text-val-cream ">
                 {{ formatStat(stats.killsPerRound, 2) }}
               </p>
             </div>
 
-            <!-- 总助攻 -->
+            <!-- 击杀/助攻 -->
             <div class="p-1">
               <p class="text-xs text-val-gray mb-0.5">
-                {{ t('stats_assists') }}
+                K/A
               </p>
               <p class="font-medium text-val-cream ">
-                {{ stats.totalAssists }}
+                {{ stats.totalKills }}/{{ stats.totalAssists }}
               </p>
             </div>
           </div>

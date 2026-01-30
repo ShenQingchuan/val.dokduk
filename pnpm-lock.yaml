@@ -163,6 +163,9 @@ catalogs:
       specifier: ^4.0.18
       version: 4.0.18
   vue-family:
+    '@pinia/colada':
+      specifier: ^0.21.2
+      version: 0.21.2
     '@tanstack/vue-virtual':
       specifier: ^3.13.18
       version: 3.13.18
@@ -337,6 +340,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@pinia/colada':
+        specifier: catalog:vue-family
+        version: 0.21.2(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3))
       '@tanstack/vue-virtual':
         specifier: catalog:vue-family
         version: 3.13.18(vue@3.5.27(typescript@5.9.3))
@@ -1319,6 +1325,12 @@ packages:
 
   '@oxc-project/types@0.101.0':
     resolution: {integrity: sha512-nuFhqlUzJX+gVIPPfuE6xurd4lST3mdcWOhyK/rZO0B9XWMKm79SuszIQEnSMmmDhq1DC8WWVYGVd+6F93o1gQ==}
+
+  '@pinia/colada@0.21.2':
+    resolution: {integrity: sha512-k2epk1jed5cTmNA7l00UtsFRyqw9HfyU6WO4cV0BMUT3sSE4CMLCilprbLAL5h2bxD76WSiglciI/6o+Uh7Vzw==}
+    peerDependencies:
+      pinia: ^2.2.6 || ^3.0.0
+      vue: ^3.5.17
 
   '@pinojs/redact@0.4.0':
     resolution: {integrity: sha512-k2ENnmBugE/rzQfEcdWHcCY+/FM3VLzH9cYEsbdsoqrvzAKRhUZeRNhAZvB8OitQJ1TBed3yqWtdjzS6wJKBwg==}
@@ -6000,6 +6012,11 @@ snapshots:
   '@oxc-project/runtime@0.101.0': {}
 
   '@oxc-project/types@0.101.0': {}
+
+  '@pinia/colada@0.21.2(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3))':
+    dependencies:
+      pinia: 3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
+      vue: 3.5.27(typescript@5.9.3)
 
   '@pinojs/redact@0.4.0': {}
 

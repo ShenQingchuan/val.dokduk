@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { useQuery } from '@pinia/colada'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { valorantApi } from '@/api/valorant'
+import { MATCH_QUERY_KEYS } from '@/queries/match'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -10,7 +12,7 @@ const router = useRouter()
 
 const matchId = computed(() => route.params.matchId as string)
 
-// Henrik API v2 match response type
+// Henrik API v2 match response type (different from v4 used in matches list)
 interface V2MatchData {
   metadata: {
     map: string
@@ -76,21 +78,15 @@ interface V2Round {
   bomb_defused: boolean
 }
 
-const match = ref<V2MatchData | null>(null)
-const loading = ref(true)
-const error = ref<string | null>(null)
-
-// Fetch match data
-onMounted(async () => {
-  try {
-    match.value = await valorantApi.getMatch(matchId.value) as unknown as V2MatchData
-  }
-  catch (e) {
-    error.value = e instanceof Error ? e.message : 'Failed to load match'
-  }
-  finally {
-    loading.value = false
-  }
+// Use Pinia Colada for cached match data
+const { data: match, isPending: loading, error } = useQuery({
+  key: () => MATCH_QUERY_KEYS.detail(matchId.value),
+  query: async () => {
+    return valorantApi.getMatch(matchId.value) as unknown as V2MatchData
+  },
+  enabled: () => Boolean(matchId.value),
+  staleTime: 10 * 60 * 1000, // 10 minutes - match data rarely changes
+  gcTime: 60 * 60 * 1000, // 1 hour - keep in cache longer
 })
 
 // Team A = Blue, Team B = Red
@@ -194,11 +190,11 @@ function translateRank(rankPatched: string | null | undefined): string {
   }
 
   // Parse rank string (e.g., "Platinum 1" or "Radiant")
-  const match = rankPatched.match(/^(\w+)(?:\s+(\d+))?$/)
-  if (!match)
+  const rankMatch = rankPatched.match(/^(\w+)(?:\s+(\d+))?$/)
+  if (!rankMatch)
     return rankPatched
 
-  const [, rankName, tier] = match
+  const [, rankName, tier] = rankMatch
   const rankKey = rankMap[rankName?.toLowerCase() ?? '']
 
   if (!rankKey)

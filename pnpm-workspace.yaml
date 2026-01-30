@@ -71,6 +71,7 @@ catalogs:
     vite-plugin-inspect: ^11.3.3
     vitest: ^4.0.18
   vue-family:
+    '@pinia/colada': ^0.21.2
     '@tanstack/vue-virtual': ^3.13.18
     '@vue/test-utils': ^2.4.6
     '@vue/tsconfig': ^0.8.1

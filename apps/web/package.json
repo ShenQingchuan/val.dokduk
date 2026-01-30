@@ -11,6 +11,7 @@
     "lint:check": "eslint ."
   },
   "dependencies": {
+    "@pinia/colada": "catalog:vue-family",
     "@tanstack/vue-virtual": "catalog:vue-family",
     "@vueuse/core": "catalog:vue-family",
     "pinia": "catalog:vue-family",

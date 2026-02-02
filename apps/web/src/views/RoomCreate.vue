@@ -13,7 +13,7 @@ const authStore = useAuthStore()
 // State
 const rooms = ref<RoomListItem[]>([])
 const myRoom = ref<RoomListItem | null>(null)
-const loading = ref(false)
+const initialLoading = ref(true) // 首次加载态
 const error = ref<string | null>(null)
 const showCreateModal = ref(false)
 const roomCode = ref('')
@@ -107,7 +107,6 @@ const gameModes: { value: GameMode, label: string }[] = [
 
 // Load rooms
 async function loadRooms() {
-  loading.value = true
   error.value = null
 
   try {
@@ -122,7 +121,7 @@ async function loadRooms() {
     error.value = e instanceof Error ? e.message : t('unknown_error')
   }
   finally {
-    loading.value = false
+    initialLoading.value = false
   }
 }
 
@@ -232,7 +231,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Loading -->
-    <div v-if="loading && rooms.length === 0" class="flex items-center justify-center py-32">
+    <div v-if="initialLoading" class="flex items-center justify-center py-32">
       <div class="text-center">
         <div class="i-svg-spinners-ring-resize w-12 h-12 text-val-red mx-auto mb-4" />
         <p class="text-val-gray">

@@ -114,7 +114,7 @@ export class RoomService {
     const membersHash = await this.redis.hgetall(RoomKeys.members(code))
     const members: RoomMember[] = Object.values(membersHash).map(m => JSON.parse(m))
     const chatJson = await this.redis.lrange(RoomKeys.chat(code), 0, MAX_CHAT_MESSAGES - 1)
-    const chat: ChatMessage[] = chatJson.map(c => JSON.parse(c))
+    const chat: ChatMessage[] = chatJson.map(c => JSON.parse(c)).sort((a, b) => a.timestamp - b.timestamp)
 
     return { room, members, chat }
   }

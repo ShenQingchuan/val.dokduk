@@ -222,7 +222,9 @@ onUnmounted(() => {
           {{ t('room_title') }}
         </h1>
         <button
-          class="btn-val rounded-lg text-sm px-4 py-2"
+          class="btn-val rounded-lg text-sm px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          :disabled="!authStore.isLoggedIn"
+          :title="!authStore.isLoggedIn ? t('room_login_required') : undefined"
           @click="handleCreateClick"
         >
           {{ t('room_create_button') }}
@@ -246,15 +248,30 @@ onUnmounted(() => {
       <p class="text-val-cream mb-2">
         {{ t('room_no_rooms') }}
       </p>
-      <p class="text-val-gray text-sm mb-6">
-        {{ t('room_no_rooms_desc') }}
-      </p>
-      <button
-        class="btn-val rounded-lg"
-        @click="handleCreateClick"
-      >
-        {{ t('room_create_first') }}
-      </button>
+      <!-- Guest: prompt to register -->
+      <template v-if="!authStore.isLoggedIn">
+        <p class="text-val-gray text-sm mb-6">
+          {{ t('room_guest_cannot_create') }}
+        </p>
+        <button
+          class="btn-val rounded-lg"
+          @click="router.push('/register')"
+        >
+          {{ t('room_go_register') }}
+        </button>
+      </template>
+      <!-- Logged in: can create room -->
+      <template v-else>
+        <p class="text-val-gray text-sm mb-6">
+          {{ t('room_no_rooms_desc') }}
+        </p>
+        <button
+          class="btn-val rounded-lg"
+          @click="handleCreateClick"
+        >
+          {{ t('room_create_first') }}
+        </button>
+      </template>
     </div>
 
     <!-- Room list -->

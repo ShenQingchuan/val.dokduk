@@ -82,3 +82,12 @@ export interface AuthenticatedUser {
   id: string
   username: string
 }
+
+/**
+ * Update Riot ID DTO
+ */
+export const UpdateRiotIdSchema = z.object({
+  riotId: z.string().regex(/^.+#\w+$/, {
+    message: 'Invalid format, use: GameName#Tag',
+  }).nullable(),
+})

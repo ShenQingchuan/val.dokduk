@@ -310,6 +310,51 @@ export class AuthService {
   }
 
   /**
+   * Get user profile by ID
+   */
+  async getProfile(userId: string): Promise<{ id: string, username: string, riotId: string | null } | null> {
+    const users = await this.db
+      .select({
+        id: authUsers.id,
+        username: authUsers.username,
+        riotId: authUsers.riotId,
+      })
+      .from(authUsers)
+      .where(eq(authUsers.id, userId))
+      .limit(1)
+
+    if (users.length === 0) {
+      return null
+    }
+
+    return users[0]
+  }
+
+  /**
+   * Update user's Riot ID
+   */
+  async updateRiotId(userId: string, riotId: string | null): Promise<{ success: true }> {
+    // Validate format if provided
+    if (riotId) {
+      const match = riotId.match(/^(.+)#(\w+)$/)
+      if (!match) {
+        throw new BadRequestException('Invalid Riot ID format, use: GameName#Tag')
+      }
+    }
+
+    await this.db
+      .update(authUsers)
+      .set({
+        riotId,
+        updatedAt: new Date(),
+      })
+      .where(eq(authUsers.id, userId))
+
+    this.logger.log(`User ${userId} updated riotId to: ${riotId || '(cleared)'}`)
+    return { success: true }
+  }
+
+  /**
    * Generate access and refresh tokens
    */
   private async generateTokens(userId: string, username: string): Promise<{

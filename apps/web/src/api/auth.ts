@@ -23,6 +23,7 @@ interface RefreshResponse {
 interface UserInfo {
   id: string
   username: string
+  riotId: string | null
 }
 
 // Storage keys
@@ -169,5 +170,12 @@ export const authApi = {
    */
   async me(): Promise<UserInfo> {
     return apiClient.get('/api/auth/me')
+  },
+
+  /**
+   * Update Riot ID
+   */
+  async updateRiotId(riotId: string | null): Promise<{ success: true }> {
+    return apiClient.post('/api/auth/riot-id', { riotId })
   },
 }

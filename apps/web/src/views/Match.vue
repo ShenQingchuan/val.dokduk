@@ -324,7 +324,7 @@ function getRoundEndType(round: V2Round): string {
           <!-- Grid: 2 rows (Team A / Team B), N columns (rounds) -->
           <div class="relative flex">
             <!-- Sticky labels column -->
-            <div class="flex flex-col gap-1 py-2 sticky left-0 z-10 bg-val-dark pr-2 shrink-0">
+            <div class="sticky-label-col">
               <div class="h-7 md:h-8 flex items-center">
                 <span class="text-xs text-blue-400 font-medium whitespace-nowrap">{{ t('team_a') || 'Team A' }}</span>
               </div>

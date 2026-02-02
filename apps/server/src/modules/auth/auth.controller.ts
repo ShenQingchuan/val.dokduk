@@ -17,6 +17,7 @@ import {
   LoginStep2Schema,
   RefreshTokenSchema,
   RegisterSchema,
+  UpdateRiotIdSchema,
 } from './auth.dto.js'
 import { JwtAuthGuard, Public } from './auth.guard.js'
 import { AuthService } from './auth.service.js'
@@ -147,9 +148,34 @@ export class AuthController {
    */
   @Get('me')
   async me(@Req() req: Request & { user: AuthenticatedUser }) {
-    return {
-      id: req.user.id,
-      username: req.user.username,
+    const profile = await this.authService.getProfile(req.user.id)
+    if (!profile) {
+      return {
+        id: req.user.id,
+        username: req.user.username,
+        riotId: null,
+      }
     }
+    return profile
+  }
+
+  /**
+   * Update Riot ID
+   * POST /auth/riot-id
+   *
+   * Updates the user's bound Riot ID
+   */
+  @Post('riot-id')
+  @HttpCode(HttpStatus.OK)
+  async updateRiotId(
+    @Req() req: Request & { user: AuthenticatedUser },
+    @Body() body: unknown,
+  ) {
+    const result = UpdateRiotIdSchema.safeParse(body)
+    if (!result.success) {
+      throw new BadRequestException(formatZodError(result.error))
+    }
+
+    return this.authService.updateRiotId(req.user.id, result.data.riotId)
   }
 }

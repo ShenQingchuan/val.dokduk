@@ -46,6 +46,7 @@ import { ConfigService } from './config/config.service.js'
 @Injectable()
 class MyService {
   // Correct dependency injection
+  // Avoid being resolved as type import
   constructor(@Inject(ConfigService) private config: ConfigService) {}
 }
 ```

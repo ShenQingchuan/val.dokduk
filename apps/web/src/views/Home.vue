@@ -40,24 +40,14 @@ function handleSearch() {
     <div class="flex-1 flex items-center justify-center px-4 pb-32 md:pb-0">
       <div class="w-full max-w-lg mx-auto text-center">
         <!-- Logo -->
-        <div class="mb-10">
-          <!-- Valorant icon with glow effect -->
-          <div class="relative w-auto h-24 mx-auto mb-6 flex items-center justify-center">
-            <div class="absolute inset-0 bg-val-red/10 rounded-full blur-2xl animate-pulse" />
-            <div class="i-simple-icons-valorant w-20 h-20 text-val-red drop-shadow-[0_0_20px_rgba(255,70,85,0.5)]" />
-          </div>
-
-          <!-- Title -->
-          <h1 class="font-logo text-5xl md:text-6xl tracking-wider text-val-cream">
-            VAL.DOKDUK
-          </h1>
-          <p class="text-val-gray mt-3 text-sm md:text-base uppercase">
+        <div class="mb-4">
+          <p class="text-white mt-3 text-xl md:text-base">
             {{ t('home_subtitle') || 'Valorant Stats Tracker' }}
           </p>
         </div>
 
         <!-- Search Form -->
-        <form class="space-y-4" @submit.prevent="handleSearch">
+        <form class="space-y-2" @submit.prevent="handleSearch">
           <!-- Search box - Valorant angular design -->
           <div class="relative group">
             <!-- Outer frame decoration -->
@@ -108,6 +98,17 @@ function handleSearch() {
             {{ t('search_hint') }}
           </p>
         </form>
+
+        <!-- Team Room Entry -->
+        <div class="mt-8 pt-6 border-t border-val-gray-dark/50">
+          <router-link
+            to="/room"
+            class="inline-flex items-center gap-2 px-5 py-3 bg-val-gray-dark/50 hover:bg-val-gray-dark rounded-lg text-val-cream transition-colors"
+          >
+            <div class="i-ion-people w-5 h-5 text-val-red" />
+            <span>{{ t('nav_room') }}</span>
+          </router-link>
+        </div>
       </div>
     </div>
 

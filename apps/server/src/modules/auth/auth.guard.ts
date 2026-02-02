@@ -29,7 +29,11 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     ])
 
     if (isPublic) {
-      return true
+      // For public routes, still try to extract user from JWT if present
+      // but don't require authentication
+      return Promise.resolve(super.canActivate(context))
+        .then(() => true)
+        .catch(() => true) // Allow access even if JWT validation fails
     }
 
     return super.canActivate(context)

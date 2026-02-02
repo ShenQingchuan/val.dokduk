@@ -3,11 +3,15 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
+import BindRiotIdModal from './BindRiotIdModal.vue'
 
 const { locale, t } = useI18n()
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
+
+// Bind modal state
+const showBindModal = ref(false)
 
 // 是否显示返回按钮（非首页时显示）
 const showBackButton = computed(() => route.path !== '/' && route.path !== '/auth')
@@ -36,6 +40,12 @@ function goBack() {
 function goToAuth() {
   showMobileMenu.value = false
   router.push('/auth')
+}
+
+function openBindModal() {
+  showUserMenu.value = false
+  showMobileMenu.value = false
+  showBindModal.value = true
 }
 
 async function handleLogout() {
@@ -138,6 +148,16 @@ onUnmounted(() => {
                 </div>
               </div>
 
+              <!-- Bind Riot ID (if logged in) -->
+              <button
+                v-if="authStore.isLoggedIn"
+                class="w-full flex items-center gap-3 px-4 py-3 text-sm text-val-gray hover:bg-val-gray-dark/30 hover:text-val-cream transition-colors"
+                @click="openBindModal"
+              >
+                <div class="i-ion-game-controller-outline w-4 h-4" />
+                {{ t('bind_riot_id') }}
+              </button>
+
               <!-- Language toggle -->
               <button
                 class="w-full flex items-center gap-3 px-4 py-3 text-sm text-val-gray hover:bg-val-gray-dark/30 hover:text-val-cream transition-colors"
@@ -196,7 +216,17 @@ onUnmounted(() => {
                 <p class="text-val-cream font-medium truncate">
                   {{ authStore.username }}
                 </p>
+                <p v-if="authStore.user?.riotId" class="text-xs text-val-gray truncate mt-0.5">
+                  {{ authStore.user.riotId }}
+                </p>
               </div>
+              <button
+                class="w-full flex items-center gap-2 px-4 py-3 text-sm text-val-gray hover:bg-val-gray-dark/30 hover:text-val-cream transition-colors"
+                @click="openBindModal"
+              >
+                <div class="i-ion-game-controller-outline w-4 h-4" />
+                {{ t('bind_riot_id') }}
+              </button>
               <button
                 class="w-full flex items-center gap-2 px-4 py-3 text-sm text-val-gray hover:bg-val-red/10 hover:text-val-red transition-colors"
                 @click="handleLogout"
@@ -223,4 +253,7 @@ onUnmounted(() => {
     <!-- Bottom red glow line -->
     <div class="h-px bg-gradient-to-r from-transparent via-val-red/50 to-transparent" />
   </header>
+
+  <!-- Bind Riot ID Modal -->
+  <BindRiotIdModal v-model="showBindModal" />
 </template>

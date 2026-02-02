@@ -7,6 +7,7 @@ import { LoggerModule } from './components/logger/logger.module.js'
 import { DatabaseModule } from './database/database.module.js'
 import { RequestIdMiddleware } from './middlewares/request-id.middleware.js'
 import { AuthModule } from './modules/auth/auth.module.js'
+import { RoomModule } from './modules/room/room.module.js'
 import { ValorantModule } from './modules/valorant/valorant.module.js'
 
 @Module({
@@ -17,6 +18,7 @@ import { ValorantModule } from './modules/valorant/valorant.module.js'
     RedisModule,
     AuthModule,
     ValorantModule,
+    RoomModule,
   ],
   controllers: [AppController],
 })

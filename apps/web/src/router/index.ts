@@ -31,6 +31,16 @@ const routes: RouteRecordRaw[] = [
     name: 'Match',
     component: () => import('../views/Match.vue'),
   },
+  {
+    path: '/room',
+    name: 'RoomCreate',
+    component: () => import('../views/RoomCreate.vue'),
+  },
+  {
+    path: '/room/:code',
+    name: 'Room',
+    component: () => import('../views/Room.vue'),
+  },
 ]
 
 const router: ReturnType<typeof createRouter> = createRouter({

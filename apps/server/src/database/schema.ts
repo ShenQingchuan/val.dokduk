@@ -9,6 +9,8 @@ export const authUsers = pgTable('auth_users', {
   // SRP-6a: store salt and verifier, never the password
   srpSalt: text('srp_salt').notNull(),
   srpVerifier: text('srp_verifier').notNull(),
+  // Bound Riot ID (format: "GameName#TagLine")
+  riotId: text('riot_id'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 }, table => [

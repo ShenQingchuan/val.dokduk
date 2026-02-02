@@ -27,10 +27,12 @@ export default defineConfig({
   },
   shortcuts: {
     'btn-val': 'relative bg-val-red text-white font-bold py-3 px-6 hover:bg-val-red-dark transition-all duration-200',
+    'btn-val-secondary': 'relative bg-val-gray-dark text-val-cream font-bold py-3 px-6 hover:bg-val-gray-dark/70 transition-all duration-200',
     'card-val': 'bg-val-dark border border-val-gray-dark rounded-lg',
     'glow-border': 'shadow-[0_0_10px_rgba(255,70,85,0.3)]',
     'bg-val-gradient': 'bg-gradient-to-b from-val-black to-val-darker',
     'scrollbar-hide': '[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]',
+    'sticky-label-col': 'flex flex-col gap-1 py-2 sticky left-0 z-10 bg-val-red text-white pr-2 shrink-0',
   },
   presets: [
     presetAttributify(),

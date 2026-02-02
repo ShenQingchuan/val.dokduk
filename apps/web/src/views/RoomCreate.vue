@@ -176,7 +176,7 @@ function getModeLabel(gameMode: GameMode): string {
 function handleCreateClick() {
   if (!authStore.isLoggedIn) {
     // 游客引导去注册
-    router.push('/register')
+    router.push('/auth?mode=register')
     return
   }
   showCreateModal.value = true
@@ -255,7 +255,7 @@ onUnmounted(() => {
         </p>
         <button
           class="btn-val rounded-lg"
-          @click="router.push('/register')"
+          @click="router.push('/auth?mode=register')"
         >
           {{ t('room_go_register') }}
         </button>

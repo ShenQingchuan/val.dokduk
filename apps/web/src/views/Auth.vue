@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
 const { t } = useI18n()
+const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 
-// Mode: 'login' or 'register'
-const mode = ref<'login' | 'register'>('login')
+// Mode: 'login' or 'register', initialized from query param
+const mode = ref<'login' | 'register'>(route.query.mode === 'register' ? 'register' : 'login')
 
 // Form state
 const username = ref('')

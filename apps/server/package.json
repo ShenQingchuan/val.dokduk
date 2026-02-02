@@ -49,6 +49,7 @@
     "@types/node": "catalog:dev-tools",
     "@types/passport-jwt": "catalog:nest-family",
     "@typescript/native-preview": "catalog:dev-tools",
+    "consola": "catalog:utils",
     "drizzle-kit": "catalog:nest-family",
     "tsx": "catalog:dev-tools",
     "typescript": "catalog:dev-tools"

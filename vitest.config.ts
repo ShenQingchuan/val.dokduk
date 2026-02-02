@@ -3,7 +3,6 @@ import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
-  plugins: [vue()],
   test: {
     globals: true,
     testTimeout: 5000,
@@ -38,7 +37,7 @@ export default defineConfig({
         },
       },
       {
-        extends: true,
+        plugins: [vue()],
         test: {
           name: 'web',
           include: ['apps/web/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],

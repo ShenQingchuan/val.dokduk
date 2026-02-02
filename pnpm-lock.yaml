@@ -179,6 +179,10 @@ catalogs:
     unocss:
       specifier: ^66.6.0
       version: 66.6.0
+  utils:
+    consola:
+      specifier: ^3.4.2
+      version: 3.4.2
   vite-family:
     '@vitejs/plugin-vue':
       specifier: ^6.0.3
@@ -376,6 +380,9 @@ importers:
       '@typescript/native-preview':
         specifier: catalog:dev-tools
         version: 7.0.0-dev.20260128.1
+      consola:
+        specifier: catalog:utils
+        version: 3.4.2
       drizzle-kit:
         specifier: catalog:nest-family
         version: 0.31.8

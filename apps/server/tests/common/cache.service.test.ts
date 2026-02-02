@@ -1,8 +1,17 @@
+import { Logger } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { CacheKeys, CacheService, CacheTTL } from '../../src/common/cache.service.js'
 import { REDIS_TOKEN } from '../../src/common/redis.module.js'
 import { createMockRedis } from '../helpers/mock-factories.js'
+
+// Replace NestJS Logger output with cleaner test-friendly messages
+vi.spyOn(Logger.prototype, 'error').mockImplementation((message: string) => {
+  process.stdout.write(`[测试] 捕捉到预期错误: ${typeof message === 'string' ? message.slice(0, 50) : 'error'}...\n`)
+})
+vi.spyOn(Logger.prototype, 'warn').mockImplementation(() => {})
+vi.spyOn(Logger.prototype, 'log').mockImplementation(() => {})
+vi.spyOn(Logger.prototype, 'debug').mockImplementation(() => {})
 
 describe('cacheService', () => {
   let service: CacheService

@@ -32,7 +32,7 @@ export default defineConfig({
     'glow-border': 'shadow-[0_0_10px_rgba(255,70,85,0.3)]',
     'bg-val-gradient': 'bg-gradient-to-b from-val-black to-val-darker',
     'scrollbar-hide': '[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]',
-    'sticky-label-col': 'flex flex-col gap-1 py-2 sticky left-0 z-10 bg-val-red text-white pr-2 shrink-0',
+    'sticky-label-col': 'flex flex-col gap-1 py-2 sticky left-0 z-10 bg-val-dark pr-2 shrink-0',
   },
   presets: [
     presetAttributify(),

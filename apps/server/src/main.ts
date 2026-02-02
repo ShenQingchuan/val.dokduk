@@ -1,4 +1,5 @@
 import type { NestExpressApplication } from '@nestjs/platform-express'
+import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 import { NestFactory } from '@nestjs/core'
@@ -21,15 +22,35 @@ async function bootstrap() {
     credentials: true,
   })
 
+  // Set global prefix for API - TODO: Update based on your environment variables
+  app.setGlobalPrefix('api')
+
   // Serve static files in production - TODO: Update based on your environment variables
   const isProduction = process.env.NODE_ENV === 'production'
   if (isProduction) {
     const publicPath = path.join(import.meta.dirname, 'public')
-    app.useStaticAssets(publicPath)
-  }
+    const indexPath = path.join(publicPath, 'index.html')
 
-  // Set global prefix for API - TODO: Update based on your environment variables
-  app.setGlobalPrefix('api')
+    app.useStaticAssets(publicPath)
+
+    // SPA fallback: serve index.html for non-API routes
+    const expressApp = app.getHttpAdapter().getInstance()
+    expressApp.get('*', (req: { path: string }, res: { sendFile: (path: string) => void }, next: () => void) => {
+      // Skip API routes
+      if (req.path.startsWith('/api')) {
+        return next()
+      }
+      // Skip requests for files with extensions (static assets)
+      if (path.extname(req.path)) {
+        return next()
+      }
+      // Serve index.html for SPA routes
+      if (fs.existsSync(indexPath)) {
+        return res.sendFile(indexPath)
+      }
+      return next()
+    })
+  }
 
   // Start server - TODO: Update based on your environment variables
   const host = process.env.HOST || '0.0.0.0'

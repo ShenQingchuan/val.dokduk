@@ -33,9 +33,9 @@ async function bootstrap() {
 
     app.useStaticAssets(publicPath)
 
-    // SPA fallback: serve index.html for non-API routes
+    // SPA fallback: serve index.html for non-API routes (Express 5 requires named wildcards)
     const expressApp = app.getHttpAdapter().getInstance()
-    expressApp.get('*', (req: { path: string }, res: { sendFile: (path: string) => void }, next: () => void) => {
+    expressApp.get('/{*splat}', (req: { path: string }, res: { sendFile: (path: string) => void }, next: () => void) => {
       // Skip API routes
       if (req.path.startsWith('/api')) {
         return next()

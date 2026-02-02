@@ -11,7 +11,7 @@
     "test": "vitest",
     "lint": "eslint .",
     "typecheck": "pnpm -r typecheck",
-    "prepare": "simple-git-hooks"
+    "prepare": "[ -n \"$CI\" ] || simple-git-hooks"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:dev-tools",

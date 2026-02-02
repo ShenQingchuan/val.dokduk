@@ -14,6 +14,7 @@ export default defineConfig({
       val: {
         'black': '#0F1923',
         'dark': '#111827',
+        'dark-light': '#1F2937',
         'darker': '#0A0E13',
         'red': '#FF4655',
         'red-dark': '#E63946',
